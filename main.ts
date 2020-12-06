@@ -10,6 +10,7 @@ namespace wifi {
         basic.showIcon(IconNames.Asleep)
         basic.pause(2000)
         serial.setRxBufferSize(100)
+        serial.setTxBufferSize(100)
         serial.redirect(
         SerialPin.P0,
         SerialPin.P12,
@@ -38,16 +39,8 @@ namespace wifi {
     //% group='Client'
     //% donnee.defl='essai' adresseIP_serveur.defl="192.168.0.101"
     export function envoi_donnee_serveur(donnee: string, adresseIP_serveur: string): void {
-        let reception = ""
         let port = "2000"
-        serial.writeString("Connect_to_server,"+adresseIP_serveur+","+port)
-        reception = serial.readUntil(serial.delimiters(Delimiters.Hash))
-        if (reception == "connected_to_server") {
-            basic.showIcon(IconNames.Yes)
-            serial.writeString("Send_to_Server,"+donnee)
-        } else {
-            basic.showIcon(IconNames.Sad)
-        }
+        serial.writeString("Connect_server_send,"+adresseIP_serveur+","+port+","+donnee)
     }
 
     //% block="Donnee reçue du client"
